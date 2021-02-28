@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"niffler/chat"
+	"niffler/config"
 	"niffler/controller"
 
 	"github.com/lunny/log"
@@ -41,10 +42,12 @@ func webServ() {
 	t.Run(8888)
 }
 
+// Serv start service
 func Serv() {
+	config.LoadConfig()
 	go webServ()
-	go chat.MessageLoop()
+	chat.MessageLoop()
 	sched()
-	niffler := NewNiffler()
+	niffler := NewNiffler(&config.Setting)
 	niffler.Run()
 }

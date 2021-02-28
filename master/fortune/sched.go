@@ -4,7 +4,7 @@ import (
 	"github.com/robfig/cron"
 )
 
-var C = cron.New()
+var c = cron.New()
 
 func sched() {
 	/*C.AddFunc("0 0 22 * * 0,2,4", func() {
@@ -13,5 +13,5 @@ func sched() {
 			chat.SendToRecommend(fmt.Sprintf("update ok, %v", h[0]))
 		}
 	})*/
-	C.Start()
+	c.Start()
 }

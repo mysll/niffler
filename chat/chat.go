@@ -70,6 +70,7 @@ func makeDingTalkMsg(msg string) []byte {
 	return data
 }
 
+// SendDingTalk send message
 func SendDingTalk(msg, webhook string) {
 	data := makeDingTalkMsg(msg)
 	if data == nil {
@@ -80,16 +81,15 @@ func SendDingTalk(msg, webhook string) {
 		resp, err := http.Post(webhook, "application/json", bytes.NewReader(data))
 		if err != nil {
 			time.Sleep(time.Second)
-			log.Println(err)
 			continue
 		}
-
 		resp.Body.Close()
 		break
 	}
 
 }
 
+// MessageLoop send message
 func MessageLoop() {
 	for _, g := range config.Setting.Broadcast {
 		if _, ok := msgqueue[g]; ok {
@@ -102,6 +102,7 @@ func MessageLoop() {
 		if _, ok := msgqueue[g]; ok {
 			continue
 		}
+		log.Println("recommend:", g)
 		msgqueue[g] = make(chan *msginfo, 128)
 		go loop(msgqueue[g])
 	}

@@ -18,10 +18,11 @@ type Bet365 struct {
 }
 
 type Config struct {
-	Bet365    Bet365   `json:"bet365"`
-	Recommend []string `json:"recommend"`
-	Broadcast []string `json:"broadcast"`
-	Rule      Rule     `json:"rule"`
+	Bet365     Bet365   `json:"bet365"`
+	Recommend  []string `json:"recommend"`
+	Broadcast  []string `json:"broadcast"`
+	Rule       Rule     `json:"rule"`
+	DataSource string   `json:"datasource"`
 }
 
 var (
