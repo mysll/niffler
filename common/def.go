@@ -1,6 +1,13 @@
-package datasource
+package common
 
 const WAIT_ODD = 1.9
+
+const (
+	EVENT_UPDATE_TIME  = iota + 1 // 时间变动，以分为单位
+	EVENT_CHANGE_STATE            // 状态改变
+	EVENT_GOAL                    // 进球
+	EVENT_CANCEL_GOAL             // 进球无效
+)
 
 const (
 	STATUS_UNKNOWN    = -1
@@ -10,25 +17,6 @@ const (
 	STATUS_SECONDHALF = 3 // 下半场
 	STATUS_COMPLETE   = 4 // 完赛
 )
-
-func State(s int) string {
-	switch s {
-	case STATUS_UNKNOWN:
-		return "未知"
-	case STATUS_NONE:
-		return "未开始"
-	case STATUS_FIRSTHALF:
-		return "上半场"
-	case STATUS_MIDDLE:
-		return "中场"
-	case STATUS_SECONDHALF:
-		return "下半场"
-	case STATUS_COMPLETE:
-		return "完赛"
-	default:
-		return "未知"
-	}
-}
 
 const (
 	RULE_334     = "334"
@@ -64,5 +52,24 @@ func RuleAlias(rule string) string {
 		return RULE_LZ_001_ALIAS
 	default:
 		return "unknown"
+	}
+}
+
+func State(s int) string {
+	switch s {
+	case STATUS_UNKNOWN:
+		return "未知"
+	case STATUS_NONE:
+		return "未开始"
+	case STATUS_FIRSTHALF:
+		return "上半场"
+	case STATUS_MIDDLE:
+		return "中场"
+	case STATUS_SECONDHALF:
+		return "下半场"
+	case STATUS_COMPLETE:
+		return "完赛"
+	default:
+		return "未知"
 	}
 }

@@ -5,6 +5,7 @@ import (
 	"log"
 	"math"
 	"niffler/chat"
+	. "niffler/common"
 )
 
 const (

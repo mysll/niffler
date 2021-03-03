@@ -64,6 +64,10 @@ type Match struct {
 	FirstSizeSma     float64
 }
 
+func (m *Match) Init() bool {
+	return false
+}
+
 func (m *Match) Score() int {
 	return m.HoScore + m.GuScore
 }
@@ -126,4 +130,9 @@ func (m *Match) String() string {
 		m.HalfFirstLet, m.HalfFirstLetHm, m.HalfFirstLetAw,
 		m.HalfFirstSize, m.HalfFirstSizeBig, m.HalfFirstSizeSma,
 	)
+}
+
+func (m *Match) Update(latest *Match) []int {
+	var event []int
+	return event
 }
