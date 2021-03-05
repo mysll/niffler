@@ -86,6 +86,27 @@ func (n *Niffler) watchIfPresent(m *datasource.Match) bool {
 }
 
 func (n *Niffler) filterMatchState(event int, m *datasource.Match) {
+	switch event {
+	case EVENT_CHANGE_STATE:
+		switch m.State {
+		case STATUS_FIRSTHALF:
+			for k, rs := range config.Setting.Rule.State {
+				if k == "firsthalf" {
+					for _, r := range rs {
+						log.Println("state rule", r)
+					}
+				}
+			}
+		case STATUS_MIDDLE:
+			for k, rs := range config.Setting.Rule.State {
+				if k == "middle" {
+					for _, r := range rs {
+						log.Println("state rule", r)
+					}
+				}
+			}
+		}
+	}
 }
 
 func (n *Niffler) filterMatch(m *datasource.Match) {
@@ -116,6 +137,12 @@ func (n *Niffler) checkActive(m *datasource.Match) {
 }
 
 func (n *Niffler) checkFilter(event int, m *datasource.Match) {
+	switch event {
+	case EVENT_CHANGE_STATE:
+		if m.State != STATUS_UNKNOWN {
+
+		}
+	}
 }
 
 func (n *Niffler) detect() bool {
