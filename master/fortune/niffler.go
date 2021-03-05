@@ -41,6 +41,15 @@ func (n *Niffler) prepare() {
 }
 
 func (n *Niffler) addMatch(match *datasource.Match) {
+	n.matchs[match.It] = match
+	if _, ok := n.filter[match.It]; !ok {
+		n.filter[match.It] = make(map[string]*datasource.Filter)
+		for key, rule := range rule.Rules {
+			if filter := rule.LoadFromDb(match.It); filter != nil {
+				n.filter[match.It][key] = filter
+			}
+		}
+	}
 }
 
 func (n *Niffler) snapShoot(e int, m *datasource.Match) {
@@ -111,12 +120,15 @@ func (n *Niffler) filterMatchState(event int, m *datasource.Match) {
 
 func (n *Niffler) filterMatch(m *datasource.Match) {
 	for _, rs := range config.Setting.Rule.Update {
+		if _, ok := n.filter[m.It][rs]; ok {
+			continue
+		}
 		if r, ok := rule.Rules[rs]; ok {
-			if fi := r.Filter(m); fi != nil {
-				fi.Insert()
-				n.filter[m.It][rs] = fi
-				if !fi.Inactive {
-					msg := fi.MakeRuleMessage(m)
+			if filter := r.Filter(m); filter != nil {
+				filter.Insert()
+				n.filter[m.It][rs] = filter
+				if !filter.Inactive {
+					msg := filter.MakeRuleMessage(m)
 					log.Println(msg)
 					chat.SendToRecommend(msg)
 				}
@@ -127,11 +139,11 @@ func (n *Niffler) filterMatch(m *datasource.Match) {
 
 func (n *Niffler) checkActive(m *datasource.Match) {
 	if fs, ok := n.filter[m.It]; ok {
-		for _, v := range fs {
-			if !v.Inactive {
+		for _, filter := range fs {
+			if !filter.Inactive {
 				continue
 			}
-			v.CheckActive(m)
+			filter.CheckActive(m)
 		}
 	}
 }

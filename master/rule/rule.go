@@ -11,6 +11,7 @@ var Rules = make(map[string]Rule)
 type Rule interface {
 	Name() string
 	Filter(m *datasource.Match) *datasource.Filter
+	LoadFromDb(key string) *datasource.Filter
 }
 
 func init() {

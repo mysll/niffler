@@ -21,3 +21,7 @@ func (r *Rule7091) Name() string {
 func (r *Rule7091) Filter(m *datasource.Match) *datasource.Filter {
 	return nil
 }
+
+func (r *Rule7091) LoadFromDb(key string) *datasource.Filter {
+	return nil
+}
